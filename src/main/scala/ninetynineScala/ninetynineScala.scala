@@ -43,7 +43,42 @@ object ninetynineScala {
 
   def isPalindrome[A](x: List[A]): Boolean = x == reverse(x)
 
-  def flatten(x: List[Any]): List[Any] = {
-    
+  def flatten[A](x: List[Any]): List[A] = {
+    x match {
+      case Nil          => List()
+      case head :: tail => if (head.isInstanceOf[List[A]]) flatten(head.asInstanceOf[List[A]]) ::: flatten(tail)
+                           else List(head.asInstanceOf[A]) ::: flatten(tail)
+    }
+  }
+
+  def compress[A](x: List[A]): List[A] = {
+    x match {
+      case Nil => List()
+      case a :: Nil => List(a)
+      case a :: b :: tail => if (a == b) compress(b :: tail)
+                             else a :: compress(b :: tail)
+    }
+  }
+
+  def pack[A](x: List[A]): List[List[A]] = {
+      def packer[A](x: List[A], result: List[A], acc: List[List[A]]) : List[List[A]] = {
+        if (x.isEmpty) acc ::: List(result)
+        else if (x.head == result.head) packer(x.tail, x.head :: result, acc)
+        else packer(x.tail, List(x.head), acc ::: List(result))
+      }
+
+      x match {
+        case Nil => Nil
+        case x: List[A] => packer(x.tail, List(x.head), List())
+      }
+  }
+
+  def encode[A](x: List[A]): List[(Int, A)] = {
+    def f[A](x: List[A]): (Int, A) = (length(x),x.head)
+    pack(x).map(f)
+  }
+
+  def encodeModified[A](x: List[A]): List[Any] = {
+    encode(x).map(l => if(l._1 == 1) l._2 else l )
   }
 }
