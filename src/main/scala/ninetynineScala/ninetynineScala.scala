@@ -81,4 +81,17 @@ object ninetynineScala {
   def encodeModified[A](x: List[A]): List[Any] = {
     encode(x).map(l => if(l._1 == 1) l._2 else l )
   }
+
+  def expand[A](n: Int, x: A): List[A] = {
+    if (n == 0) List()
+    else x :: expand(n-1, x)
+  }
+
+  def decode[A](x: List[(Int, A)]): List[A] = {
+    def decodeIter(x: List[(Int, A)], acc: List[A]): List[A] = {
+      if (ninetynineScala.length(x) == 0) acc
+      else decodeIter(x.tail, acc ++ expand(x.head._1, x.head._2))
+    }
+    decodeIter(x, List())
+  }
 }
