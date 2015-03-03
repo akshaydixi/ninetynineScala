@@ -94,4 +94,24 @@ object ninetynineScala {
     }
     decodeIter(x, List())
   }
+
+  def duplicate[A](x: List[A]): List[A] = {
+    x match {
+      case Nil => Nil
+      case x: List[A] => List(x.head, x.head) ++ duplicate(x.tail)
+    }
+  }
+
+  def duplicateN[A](N: Int, x: List[A]): List[A] = {
+    def Nfrom1(n: Int, one: A): List[A] = {
+      n match {
+        case 0 => Nil
+        case positive: Int => List(one) ++ Nfrom1(positive - 1,one)
+      }
+    }
+    x match {
+      case Nil => Nil
+      case x: List[A] => Nfrom1(N,x.head) ++ duplicateN(N, x.tail)
+    }
+  }
 }

@@ -74,4 +74,13 @@ class ninetynineScalatest extends FlatSpec with Matchers {
   "Problem 12" should "construct an uncompressed version from run-length code list" in {
     decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e))) should be (List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
   }
+
+  "Problem 14" should "duplicate the elements of a list" in {
+    duplicate(List('a, 'b, 'c, 'c, 'd)) should be (List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd))
+  }
+
+  "Problem 15" should "duplicate the elements of a list a given number of times" in {
+    duplicateN(3,  List('a, 'b, 'c, 'c, 'd)) should be (List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd))
+  }
+
 }
