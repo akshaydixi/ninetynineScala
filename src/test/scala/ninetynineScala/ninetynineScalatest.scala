@@ -83,4 +83,8 @@ class ninetynineScalatest extends FlatSpec with Matchers {
     duplicateN(3,  List('a, 'b, 'c, 'c, 'd)) should be (List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd))
   }
 
+  "Problem 16" should "drop every Nth element from the list" in {
+    drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) should be (List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k))
+  }
+
 }

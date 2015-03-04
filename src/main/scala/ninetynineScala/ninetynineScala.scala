@@ -114,4 +114,8 @@ object ninetynineScala {
       case x: List[A] => Nfrom1(N,x.head) ++ duplicateN(N, x.tail)
     }
   }
+
+  def drop[A](N: Int, x: List[A]): List[A] = {
+    (x zip (Stream from 1)).filter(a => a._2 % N != 0).unzip._1
+  }
 }
