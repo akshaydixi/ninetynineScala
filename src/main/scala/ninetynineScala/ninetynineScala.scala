@@ -1,5 +1,7 @@
 package ninetynineScala
 
+import scala.annotation.tailrec
+
 object ninetynineScala {
   def last[A](x: List[A]): A = {
     x match {
@@ -117,5 +119,14 @@ object ninetynineScala {
 
   def drop[A](N: Int, x: List[A]): List[A] = {
     (x zip (Stream from 1)).filter(a => a._2 % N != 0).unzip._1
+  }
+
+  def split[A](N: Int, x: List[A]): (List[A],List[A]) = {
+    @tailrec
+   def itersplit(N: Int, x: List[A], y: List[A]): (List[A], List[A]) = {
+     if (N == 0) (reverse(y),x)
+     else itersplit(N-1, x.tail, x.head :: y)
+   }
+    itersplit(N, x, List())
   }
 }
