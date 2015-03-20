@@ -63,7 +63,7 @@ object ninetynineScala {
   }
 
   def pack[A](x: List[A]): List[List[A]] = {
-      def packer[A](x: List[A], result: List[A], acc: List[List[A]]) : List[List[A]] = {
+      def packer(x: List[A], result: List[A], acc: List[List[A]]) : List[List[A]] = {
         if (x.isEmpty) acc ::: List(result)
         else if (x.head == result.head) packer(x.tail, x.head :: result, acc)
         else packer(x.tail, List(x.head), acc ::: List(result))
@@ -76,7 +76,7 @@ object ninetynineScala {
   }
 
   def encode[A](x: List[A]): List[(Int, A)] = {
-    def f[A](x: List[A]): (Int, A) = (length(x),x.head)
+    def f(x: List[A]): (Int, A) = (length(x),x.head)
     pack(x).map(f)
   }
 
@@ -123,10 +123,32 @@ object ninetynineScala {
 
   def split[A](N: Int, x: List[A]): (List[A],List[A]) = {
     @tailrec
-   def itersplit(N: Int, x: List[A], y: List[A]): (List[A], List[A]) = {
-     if (N == 0) (reverse(y),x)
-     else itersplit(N-1, x.tail, x.head :: y)
-   }
+    def itersplit(N: Int, x: List[A], y: List[A]): (List[A], List[A]) = {
+      if (N == 0) (reverse(y),x)
+      else itersplit(N-1, x.tail, x.head :: y)
+    }
     itersplit(N, x, List())
+  }
+
+  def slice[A](I: Int, K: Int, x: List[A]): List[A] = {
+    split(K-I, split(I,x)._2)._1
+  }
+
+  def rotate[A](N: Int, x: List[A]): List[A] = {
+    if (N < 0) {
+      val tmp = split( length(x) + N , x)
+      tmp._2 ++ tmp._1
+    } else {
+      val tmp = split( N , x)
+      tmp._2 ++ tmp._1
+    }
+  }
+
+  def removeAt[A](K: Int, x: List[A]): (List[A], A) = {
+    def removeAtIter(K: Int, prev: List[A], next: List[A]) : (List[A], A) = {
+      if (K == 0) (prev ++ next.tail,next.head)
+      else removeAtIter(K - 1, prev ::: List(next.head), next.tail )
+    }
+    removeAtIter(K, List(), x)
   }
 }
