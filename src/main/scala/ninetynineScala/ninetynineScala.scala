@@ -1,6 +1,7 @@
 package ninetynineScala
 
 import scala.annotation.tailrec
+import scala.util.Random
 
 object ninetynineScala {
   def last[A](x: List[A]): A = {
@@ -151,4 +152,30 @@ object ninetynineScala {
     }
     removeAtIter(K, List(), x)
   }
+
+	def insertAt[A](element: A, K: Int, x: List[A]): List[A] = {
+		val splitted = split(K,x)
+		splitted._1 ++ List(element) ++ splitted._2
+	}
+
+	def range(start: Int, end: Int) : List[Int] = {
+		if (start > end) range(end, start)
+		if (start == end) List(end)
+		else start::range(start+1,end)
+	}
+
+	def randomSelect[A](K: Int, x: List[A]): List[A] = {
+		if (K == 0) return List()
+		val randomNumber = new Random().nextInt(length(x))
+		val removal = removeAt(randomNumber, x)
+		removal._2 :: randomSelect(K-1, removal._1)
+	}
+
+	def lotto(N: Int, M:Int): List[Int] = {
+		randomSelect(N,range(1,M))
+	}
+
+	def randomPermute[A](x: List[A]): List[A] = {
+		randomSelect(x.length, x)
+	}
 }

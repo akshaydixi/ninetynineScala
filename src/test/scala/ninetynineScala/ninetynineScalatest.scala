@@ -103,4 +103,17 @@ class ninetynineScalatest extends FlatSpec with Matchers {
   "Problem 20" should "remove the Kth element from a list" in {
     removeAt(1, List('a, 'b, 'c, 'd)) should be ((List('a, 'c, 'd),'b))
   }
+
+	"Problem 21" should "insert an element at a given position into a list" in {
+		insertAt('new, 1, List('a, 'b, 'c, 'd)) should be (List('a, 'new, 'b, 'c, 'd))
+	}
+
+	"Problem 22" should "create a list containing all integers within a given range" in {
+		range(4, 9) should be (List(4, 5, 6, 7, 8, 9))
+	}
+
+	"Problem 25" should "generate a random permutation of elements of a list" in {
+		randomPermute(List(3,4,5,2,1)).sorted should be (List(1,2,3,4,5))
+	}
+
 }
